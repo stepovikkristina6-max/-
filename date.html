@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Когда тебе удобно?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background: #ff756f;
+
+      font-family: Arial, sans-serif;
+      color: white;
+
+      display: flex;
+      justify-content: center;
+
+      padding: 25px 20px 45px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 880px;
+      min-height: calc(100vh - 70px);
+
+      background: rgba(255, 190, 180, 0.55);
+
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 55px;
+
+      padding: 35px 35px 40px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      box-shadow:
+        0 15px 35px rgba(120, 50, 45, 0.18);
+
+      position: relative;
+    }
+
+
+    /* =========================
+       ТОЧКИ СВЕРХУ
+    ========================= */
+
+    .top-dots {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      margin-bottom: 25px;
+    }
+
+    .top-dots span {
+      width: 22px;
+      height: 22px;
+
+      border-radius: 50%;
+
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .top-dots span:first-child {
+      width: 64px;
+
+      border-radius: 20px;
+
+      background: white;
+    }
+
+
+    /* =========================
+       GIF
+    ========================= */
+
+    .gif-container {
+      width: min(82vw, 400px);
+
+      display: flex;
+      justify-content: center;
+
+      margin-bottom: 15px;
+    }
+
+    .gif-frame {
+      display: block;
+
+      width: 100%;
+
+      aspect-ratio: 480 / 597;
+
+      border: none;
+    }
+
+
+    /* =========================
+       ЗАГОЛОВОК
+    ========================= */
+
+    h1 {
+      margin: 0 0 8px;
+
+      color: white;
+
+      font-size: clamp(30px, 8vw, 58px);
+
+      line-height: 1.15;
+
+      text-align: center;
+
+      font-weight: 700;
+    }
+
+    .calendar-emoji {
+      font-size: 40px;
+      line-height: 1;
+
+      margin-bottom: 28px;
+    }
+
+
+    /* =========================
+       ПОЛЯ ДАТЫ И ВРЕМЕНИ
+    ========================= */
+
+    .fields {
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 28px;
+    }
+
+    .field {
+      width: 100%;
+      height: 105px;
+
+      border-radius: 32px;
+
+      border: 3px solid rgba(255, 255, 255, 0.65);
+
+      background: rgba(255, 190, 180, 0.32);
+
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 32px;
+
+      font-size: 25px;
+
+      cursor: pointer;
+
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .field:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .field-placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .field-icon {
+      font-size: 40px;
+
+      flex-shrink: 0;
+    }
+
+
+    /* =========================
+       КНОПКА
+    ========================= */
+
+    #chooseButton {
+  margin-top: 55px;
+
+  width: min(75%, 450px);
+
+  height: 90px;
+
+  border: none;
+
+  border-radius: 50px;
+
+  background: #ffd0c5;
+
+  color: #e7777b;
+
+  font-size: 27px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 20px rgba(160, 70, 65, 0.16);
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+#chooseButton.ready {
+  background: white;
+}
+
+    #chooseButton:active {
+      transform: scale(0.97);
+    }
+
+
+    /* =========================
+       ЗАТЕМНЕНИЕ
+========================= */
+
+.overlay {
+      position: fixed;
+
+      inset: 0;
+
+      background: rgba(70, 40, 40, 0.28);
+
+      display: none;
+
+      align-items: flex-end;
+
+      justify-content: center;
+
+      z-index: 100;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+
+    /* =========================
+       ОКНО ВЫБОРА
+    ========================= */
+
+    .picker {
+      width: 100%;
+
+      max-width: 600px;
+
+      background: #fff8f6;
+
+      color: #222;
+
+      border-radius: 35px 35px 0 0;
+
+      padding: 22px 22px 30px;
+
+      box-shadow:
+        0 -10px 40px rgba(80, 40, 40, 0.25);
+
+      animation: pickerUp 0.2s ease;
+    }
+
+    @keyframes pickerUp {
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .picker-header {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      margin-bottom: 22px;
+    }
+
+    .picker-title {
+      font-size: 24px;
+
+      font-weight: 700;
+    }
+
+    .close-picker {
+      width: 42px;
+      height: 42px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: #f1d8d3;
+
+      font-size: 22px;
+
+      cursor: pointer;
+    }
+
+
+    /* =========================
+       КАЛЕНДАРЬ
+    ========================= */
+
+    .month-title {
+      text-align: center;
+
+      font-size: 22px;
+
+      font-weight: 700;
+
+      margin-bottom: 18px;
+    }
+
+    .weekdays,
+    .calendar-grid {
+      display: grid;
+
+      grid-template-columns: repeat(7, 1fr);
+
+      gap: 5px;
+    }
+
+    .weekday {
+      text-align: center;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      color: #a77b76;
+
+      padding-bottom: 7px;
+    }
+
+    .day {
+      aspect-ratio: 1;
+
+      border: none;
+
+      border-radius: 10px;
+
+      background: transparent;
+
+      font-size: 17px;
+
+      color: #333;
+
+      cursor: pointer;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+    .day:active {
+      transform: scale(0.92);
+    }
+
+    .day.empty {
+      pointer-events: none;
+    }
+
+    .day.selected {
+      background: #e7777b;
+
+      color: white;
+    }
+
+
+    /* =========================
+       ВЫБОР ВРЕМЕНИ
+    ========================= */
+
+    .time-list {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 12px;
+
+      max-height: 55vh;
+
+      overflow-y: auto;
+    }
+
+    .time-option {
+      height: 55px;
+
+      border: 2px solid #f0d4cf;
+
+      border-radius: 18px;
+
+      background: white;
+
+      color: #333;
+
+      font-size: 18px;
+
+      cursor: pointer;
+    }
+
+    .time-option.selected {
+      background: #e7777b;
+
+      color: white;
+
+      border-color: #e7777b;
+    }
+
+
+    /* =========================
+       МОБИЛЬНАЯ ВЕРСИЯ
+    ========================= */
+
+    @media (max-width: 500px) {
+
+      .page {
+        border-radius: 40px;
+
+        padding: 30px 22px 35px;
+      }
+
+      .top-dots {
+        margin-bottom: 18px;
+      }
+
+      .gif-container {
+        width: min(82vw, 360px);
+
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: 31px;
+      }
+
+      .calendar-emoji {
+        font-size: 34px;
+      }
+
+      .field {
+        height: 105px;
+
+        padding: 0 25px;
+
+        font-size: 21px;
+      }
+
+      .field-icon {
+        font-size: 34px;
+      }
+
+      #chooseButton {
+        width: 75%;
+
+        height: 82px;
+
+        font-size: 24px;
+      }
+
+      .picker {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="page">
+
+
+    <!-- ТОЧКИ СВЕРХУ -->
+
+    <div class="top-dots">
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+
+    <!-- GIF -->
+
+    <div class="gif-container">
+
+      <iframe
+        class="gif-frame"
+        src="https://gifs.ru/embed/305meq"
+        width="480"
+        height="597"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+
+    </div>
+
+
+    <!-- ЗАГОЛОВОК -->
+
+    <h1>
+      Когда тебе удобно?
+    </h1>
+
+
+    <div class="calendar-emoji">
+      🗓️
+    </div>
+
+
+    <!-- ПОЛЯ -->
+
+    <div class="fields">
+
+
+      <!-- ДАТА -->
+
+      <div class="field" id="dateField">
+
+        <span
+          id="dateValue"
+          class="field-placeholder">
+        </span>
+
+        <span class="field-icon">
+          📅
+        </span>
+
+      </div>
+
+
+      <!-- ВРЕМЯ -->
+
+      <div class="field" id="timeField">
+
+        <span
+          id="timeValue"
+          class="field-placeholder">
+        </span>
+
+        <span class="field-icon">
+          🕐
+        </span>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- КНОПКА -->
+
+    <button id="chooseButton">
+      Выбрать ✨
+    </button>
+
+
+  </main>
+
+
+
+  <!-- =========================
+       КАЛЕНДАРЬ
+  ========================= -->
+
+  <div
+    class="overlay"
+    id="dateOverlay">
+
+
+    <div class="picker">
+
+
+      <div class="picker-header">
+
+        <div class="picker-title">
+          Выбери дату 💕
+        </div>
+
+        <button
+          class="close-picker"
+          id="closeDate">
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="month-title">
+        Октябрь 2026
+      </div>
+
+
+      <div class="weekdays">
+
+        <div class="weekday">ПН</div>
+        <div class="weekday">ВТ</div>
+        <div class="weekday">СР</div>
+        <div class="weekday">ЧТ</div>
+        <div class="weekday">ПТ</div>
+        <div class="weekday">СБ</div>
+        <div class="weekday">ВС</div>
+
+      </div>
+
+
+      <div
+        class="calendar-grid"
+        id="calendarGrid">
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       ВЫБОР ВРЕМЕНИ
+  ========================= -->
+
+  <div
+    class="overlay"
+    id="timeOverlay">
+
+
+    <div class="picker">
+
+
+      <div class="picker-header">
+
+        <div class="picker-title">
+          Во сколько встречаемся? 🕐
+        </div>
+
+        <button
+          class="close-picker"
+          id="closeTime">
+          ×
+        </button>
+
+      </div>
+
+
+      <div
+        class="time-list"
+        id="timeList">
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <script>
+
+
+    /* =========================
+       ПЕРЕМЕННЫЕ
+    ========================= */
+
+    const dateField =
+      document.getElementById("dateField");
+
+    const timeField =
+      document.getElementById("timeField");
+
+    const dateValue =
+      document.getElementById("dateValue");
+
+    const timeValue =
+      document.getElementById("timeValue");
+
+    const dateOverlay =
+      document.getElementById("dateOverlay");
+
+    const timeOverlay =
+      document.getElementById("timeOverlay");
+
+    const closeDate =
+      document.getElementById("closeDate");
+
+    const closeTime =
+      document.getElementById("closeTime");
+
+    const calendarGrid =
+      document.getElementById("calendarGrid");
+
+    const timeList =
+      document.getElementById("timeList");
+
+
+    let selectedDate = null;
+
+    let selectedTime = null;
+
+
+
+    /* =========================
+       СОЗДАЁМ КАЛЕНДАРЬ
+    ========================= */
+
+    function createCalendar() {
+
+      calendarGrid.innerHTML = "";
+
+
+      // Октябрь 2026 начинается в четверг.
+      // Поэтому перед 1 числом
+      // нужны три пустые клетки.
+
+      const firstDay =
+        new Date(2026, 9, 1).getDay();
+
+      let mondayIndex =
+      firstDay - 1;
+
+if (mondayIndex < 0) {
+  mondayIndex = 6;
+}
+
+
+// Пустые клетки
+
+for (
+  let i = 0;
+  i < mondayIndex;
+  i++
+) {
+
+  const emptyDay =
+    document.createElement("div");
+
+  emptyDay.className =
+    "day empty";
+
+  calendarGrid.appendChild(
+    emptyDay
+  );
+
+}
+
+
+// 31 день октября
+
+for (
+  let day = 1;
+  day <= 31;
+  day++
+) {
+
+  const button =
+    document.createElement("button");
+
+  button.className =
+    "day";
+
+  button.textContent =
+    day;
+
+
+  button.addEventListener(
+    "click",
+    function (event) {
+
+      event.stopPropagation();
+
+
+      selectedDate = day;
+
+
+      // Убираем старое выделение
+
+      document
+        .querySelectorAll(".day")
+        .forEach(function (item) {
+
+          item.classList.remove(
+            "selected"
+          );
+
+        });
+
+
+      // Красный квадрат
+
+      button.classList.add(
+        "selected"
+      );
+
+
+      // Сохраняем дату
+
+      dateValue.textContent =
+        day + " октября 2026";
+
+      dateValue.classList.remove(
+        "field-placeholder"
+      );
+      updateChooseButton();
+
+      // Закрываем календарь
+
+      setTimeout(
+        function () {
+
+          dateOverlay.classList.remove(
+            "open"
+          );
+
+        },
+        120
+      );
+
+    }
+  );
+
+
+  if (selectedDate === day) {
+
+    button.classList.add(
+      "selected"
+    );
+
+  }
+
+
+  calendarGrid.appendChild(
+    button
+  );
+
+}
+
+}
+
+
+createCalendar();
+
+
+
+/* =========================
+ ОТКРЫТЬ КАЛЕНДАРЬ
+========================= */
+
+dateField.addEventListener(
+"click",
+function () {
+
+  createCalendar();
+
+  dateOverlay.classList.add(
+    "open"
+  );
+
+}
+);
+
+
+
+/* =========================
+ ЗАКРЫТЬ КАЛЕНДАРЬ
+========================= */
+
+closeDate.addEventListener(
+"click",
+function () {
+
+  dateOverlay.classList.remove(
+    "open"
+  );
+
+}
+);
+
+
+dateOverlay.addEventListener(
+"click",
+function (event) {
+
+  if (
+    event.target === dateOverlay
+  ) {
+
+    dateOverlay.classList.remove(
+      "open"
+    );
+
+  }
+
+}
+);
+
+
+
+/* =========================
+ СОЗДАЁМ ВРЕМЯ
+========================= */
+
+function createTimeList() {
+
+timeList.innerHTML = "";
+
+
+// Время с 10:00 до 22:00
+// шаг 30 минут
+
+for (
+  let hour = 10;
+  hour <= 22;
+  hour++
+) {
+
+  for (
+    let minute of [0, 30]
+  ) {
+
+    if (
+      hour === 22 &&
+      minute === 30
+    ) {
+      continue;
+    }
+
+
+    const time =
+      String(hour).padStart(2, "0")
+      + ":"
+      + String(minute).padStart(2, "0");
+
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "time-option";
+
+    button.textContent =
+      time;
+
+      if (
+            selectedTime === time
+          ) {
+
+            button.classList.add(
+              "selected"
+            );
+
+          }
+
+
+          button.addEventListener(
+            "click",
+            function (event) {
+
+              event.stopPropagation();
+
+
+              selectedTime = time;
+
+
+              document
+                .querySelectorAll(
+                  ".time-option"
+                )
+                .forEach(function (item) {
+
+                  item.classList.remove(
+                    "selected"
+                  );
+
+                });
+
+
+              button.classList.add(
+                "selected"
+              );
+
+
+              timeValue.textContent =
+                time;
+
+              timeValue.classList.remove(
+                "field-placeholder"
+              );
+              updateChooseButton();
+
+
+              setTimeout(
+                function () {
+
+                  timeOverlay.classList.remove(
+                    "open"
+                  );
+
+                },
+                120
+              );
+
+            }
+          );
+
+
+          timeList.appendChild(
+            button
+          );
+
+        }
+
+      }
+
+    }
+
+
+    createTimeList();
+
+
+
+    /* =========================
+       ОТКРЫТЬ ВРЕМЯ
+    ========================= */
+
+    timeField.addEventListener(
+      "click",
+      function () {
+
+        createTimeList();
+
+        timeOverlay.classList.add(
+          "open"
+        );
+
+      }
+    );
+
+
+
+    /* =========================
+       ЗАКРЫТЬ ВРЕМЯ
+    ========================= */
+
+    closeTime.addEventListener(
+      "click",
+      function () {
+
+        timeOverlay.classList.remove(
+          "open"
+        );
+
+      }
+    );
+
+
+    timeOverlay.addEventListener(
+      "click",
+      function (event) {
+
+        if (
+          event.target === timeOverlay
+        ) {
+
+          timeOverlay.classList.remove(
+            "open"
+          );
+
+        }
+
+      }
+    );
+
+
+
+    /* =========================
+       КНОПКА «ВЫБРАТЬ»
+    ========================= */
+
+    const chooseButton =
+  document.getElementById("chooseButton");
+
+function updateChooseButton() {
+
+  if (selectedDate && selectedTime) {
+
+    chooseButton.classList.add("ready");
+
+  } else {
+
+    chooseButton.classList.remove("ready");
+
+  }
+
+}
+
+chooseButton.addEventListener(
+  "click",
+  function () {
+
+    if (!selectedDate) {
+
+      alert("Сначала выбери дату 💕");
+
+      return;
+
+    }
+
+    if (!selectedTime) {
+
+      alert("Теперь выбери время 🕐");
+
+      return;
+
+    }
+
+    // Сохраняем выбор,
+    // чтобы следующая страница его не потеряла.
+
+    localStorage.setItem(
+      "date",
+      selectedDate + " октября 2026"
+    );
+
+    localStorage.setItem(
+      "time",
+      selectedTime
+    );
+
+    window.location.href =
+      "activity.html";
+
+  }
+);
+
+  </script>
+
+</body>
+</html>

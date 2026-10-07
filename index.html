@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Для тебя ❤</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 18px;
+
+            background: #764e32;
+
+            font-family: sans-serif;
+
+            color: white;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           КРАСИВАЯ РАМКА
+           ========================= */
+
+        .page {
+
+            width: 100%;
+
+            height: calc(100vh - 36px);
+
+            max-width: 500px;
+
+            border-radius: 42px;
+
+            border:
+                2px solid
+                rgba(255, 255, 255, 0.35);
+
+            background:
+                rgba(145, 105, 75, 0.38);
+
+            box-shadow:
+                0 15px 40px
+                rgba(40, 20, 10, 0.25);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 25px 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        h1 {
+
+            margin: 0 0 25px;
+
+            color: white;
+
+            font-size:
+                clamp(24px, 7vw, 34px);
+
+            font-weight: 500;
+
+            line-height: 1.2;
+
+        }
+
+
+        canvas {
+
+            display: block;
+
+            max-width: 100%;
+
+            cursor: pointer;
+
+            touch-action: manipulation;
+
+        }
+
+
+        /* =========================
+           МОБИЛЬНАЯ ВЕРСИЯ
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 14px;
+            }
+
+
+            .page {
+
+                height:
+                    calc(100vh - 28px);
+
+                border-radius: 38px;
+
+                padding:
+                    20px 15px;
+
+            }
+
+
+            h1 {
+
+                margin-bottom: 20px;
+
+                font-size:
+                    clamp(23px, 7vw, 31px);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="page">
+
+
+        <h1>
+            Анна, нажмите на меня 😉
+        </h1>
+
+
+        <canvas id="cat"></canvas>
+
+
+    </div>
+
+
+
+    <!-- Подключаем библиотеку,
+         на которой сделан котёнок -->
+
+    <script src="https://unpkg.com/zdog@1/dist/zdog.dist.js"></script>
+
+
+    <script>
+
+
+        // Находим наш canvas
+
+        var illoElem =
+            document.querySelector('#cat');
+
+
+        // Размер котёнка
+
+        var illoSize = 64;
+
+
+        // Определяем размер экрана
+
+        var minWindowSize =
+            Math.min(
+                window.innerWidth - 20,
+                window.innerHeight - 150
+            );
+
+
+        var zoom =
+            Math.floor(
+                minWindowSize / illoSize
+            );
+
+
+        // Размер canvas
+
+        illoElem.setAttribute(
+            'width',
+            illoSize * zoom
+        );
+
+
+        illoElem.setAttribute(
+            'height',
+            illoSize * zoom
+        );
+
+
+        var isSpinning = true;
+
+
+        var TAU = Zdog.TAU;
+
+
+        // Создаём котёнка
+
+        var illo =
+            new Zdog.Illustration({
+
+                element: illoElem,
+
+                zoom: zoom,
+
+                rotate: {
+                    x: -TAU / 32
+                },
+
+                dragRotate: true,
+
+                onDragStart: function() {
+
+                    isSpinning = false;
+
+                }
+
+            });
+
+
+        // Цвета котёнка
+
+        var magenta = '#F49';
+
+        var midnight = '#103';
+
+        var white = 'white';
+
+
+        // Группа котёнка
+
+        var cat =
+            new Zdog.Group({
+
+                addTo: illo,
+
+                updateSort: true
+
+            });
+
+
+        // Тело
+
+        new Zdog.Shape({
+
+            path: [
+                { y: -1 },
+                { y: 1 }
+            ],
+
+            scale: {
+                y: 3
+            },
+
+            addTo: cat,
+
+            stroke: 14,
+
+            color: magenta
+
+        });
+
+
+        // Лицо
+
+        var face =
+            new Zdog.Anchor({
+
+                addTo: cat,
+
+                translate: {
+                    y: -4,
+                    z: 6.5
+                }
+
+            });
+
+
+        // Нос
+
+        new Zdog.Shape({
+
+            path: [
+                { x: -1 },
+                { x: 1 },
+                { y: 1 }
+            ],
+
+            scale: {
+                x: 0.25,
+                y: 0.25
+            },
+
+            addTo: face,
+
+            translate: {
+                z: 1.5
+            },
+
+            stroke: 1,
+
+            color: midnight
+
+        });
+
+
+        // Животик
+
+        new Zdog.RoundedRect({
+
+            width: 5,
+
+            height: 7,
+
+            cornerRadius: 2.5,
+
+            addTo: cat,
+
+            translate: {
+                y: 3.5,
+                z: 5
+            },
+
+            color: white,
+
+            stroke: 3,
+
+            fill: true
+
+        });
+
+
+        // Подбородок
+
+        new Zdog.Shape({
+
+            path: [
+                { x: -1 },
+                { x: 1 }
+            ],
+
+            scale: {
+                x: 2
+            },
+
+            addTo: cat,
+
+            translate: {
+                y: -3,
+                z: 4
+            },
+
+            stroke: 4,
+
+            color: magenta
+
+        });
+
+
+        // Хвост
+
+        new Zdog.Shape({
+
+path: [
+    { y: 0 },
+    { y: 8 }
+],
+
+addTo: cat,
+
+translate: {
+    y: 7,
+    z: -4
+},
+
+rotate: {
+    x: -TAU / 32
+},
+
+stroke: 1,
+
+color: magenta
+
+});
+
+
+// Спинка
+
+var backLine =
+new Zdog.Shape({
+
+    path: [
+        { x: -1 },
+        { x: 1 }
+    ],
+
+    scale: {
+        x: 3
+    },
+
+    addTo: cat,
+
+    translate: {
+        y: 0,
+        z: -6.5
+    },
+
+    stroke: 0.5,
+
+    color: '#F7A'
+
+});
+
+
+backLine.copy({
+
+translate: {
+    y: -3,
+    z: -6.5
+}
+
+});
+
+
+backLine.copy({
+
+translate: {
+    y: 3,
+    z: -6.5
+}
+
+});
+
+
+// Глаза, рот, усы, уши, лапы
+
+[-1, 1].forEach(function(xSide) {
+
+
+// Глаз
+
+new Zdog.Shape({
+
+    path: [
+        { y: -1 },
+        { y: 1 }
+    ],
+
+    scale: {
+        y: 0.3
+    },
+
+    addTo: face,
+
+    translate: {
+        x: 0.75 * xSide,
+        y: -1.5
+    },
+
+    stroke: 0.8,
+
+    color: midnight
+
+});
+
+
+// Рот
+
+new Zdog.Shape({
+
+    path: [
+        { x: -1 },
+        { x: 1 }
+    ],
+
+    scale: {
+        x: 0.4
+    },
+
+    addTo: face,
+
+    translate: {
+        x: 1 * xSide,
+        y: 0.5,
+        z: 0.5
+    },
+
+    stroke: 1.5,
+
+    color: white
+
+});
+
+
+// Усы
+
+var whisker =
+    new Zdog.Shape({
+
+        path: [
+            { x: 0, y: 0 },
+            { x: 1, y: 1 }
+        ],
+
+        scale: {
+            x: xSide * 3,
+            y: 0.75
+        },
+
+        addTo: face,
+
+        translate: {
+            x: 2.5 * xSide,
+            y: 0.5
+        },
+
+        color: white,
+
+        stroke: 0.25
+
+    });
+
+
+whisker.copy({
+
+    scale: {
+        x: xSide * 3,
+        y: -0.75
+    }
+
+});
+
+
+// Ухо
+
+new Zdog.Shape({
+
+    path: [
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+        { x: 1, y: -1 }
+    ],
+
+    scale: {
+        x: 2 * xSide,
+        y: 1.5
+    },
+
+    addTo: cat,
+
+    translate: {
+        x: 2 * xSide,
+        y: -8
+    },
+
+    color: magenta,
+
+    stroke: 3,
+
+    fill: true
+
+});
+
+
+// Лапа
+
+var arm =
+    new Zdog.Shape({
+
+        path: [
+            { y: 0 },
+            { y: 3.5 }
+        ],
+
+        addTo: cat,
+
+        translate: {
+            x: 3.5 * xSide,
+            y: -1,
+            z: 5.5
+        },
+
+        rotate: {
+            x: TAU / 16
+        },
+
+        stroke: 3,
+
+        color:magenta
+
+});
+
+
+// Нога
+
+arm.copy({
+
+translate: {
+    x: 3.5 * xSide,
+    y: 8,
+    z: 2
+},
+
+rotate: {}
+
+});
+
+});
+
+
+// Призма вокруг котёнка
+
+var diamondPanel =
+new Zdog.Shape({
+
+path: [
+    {
+        x: 0,
+        y: 1,
+        z: 0
+    },
+
+    {
+        x: -1,
+        y: 0,
+        z: 1
+    },
+
+    {
+        x: 1,
+        y: 0,
+        z: 1
+    }
+],
+
+scale: {
+    x: 12,
+    y: 30,
+    z: -12
+},
+
+addTo: illo,
+
+stroke: false,
+
+fill: true,
+
+color:
+    'hsla(60, 100%, 50%, 0.1)'
+
+});
+
+
+diamondPanel.copy({
+
+rotate: {
+y: TAU / 4
+},
+
+color:
+'hsla(60, 100%, 50%, 0.2)'
+
+});
+
+
+diamondPanel.copy({
+
+rotate: {
+y: TAU / 4 * 2
+},
+
+color:
+'hsla(60, 100%, 50%, 0.3)'
+
+});
+
+
+diamondPanel.copy({
+
+rotate: {
+y: TAU / 4 * 3
+},
+
+color:
+'hsla(60, 100%, 50%, 0.4)'
+
+});
+
+
+// Анимация
+
+function animate() {
+
+illo.rotate.y +=
+isSpinning
+    ? -TAU / 150
+    : 0;
+
+illo.updateRenderGraph();
+
+requestAnimationFrame(
+animate
+);
+
+}
+
+
+animate();
+
+
+// При нажатии на котёнка
+
+illoElem.addEventListener(
+'click',
+function() {
+
+window.location.href =
+    'question.html';
+
+}
+);
+
+
+</script>
+
+
+</body>
+
+</html>

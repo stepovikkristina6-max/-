@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Чем займёмся?</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+
+      margin: 0;
+
+      width: 100%;
+
+      min-height: 100%;
+
+    }
+
+
+    body {
+
+      min-height: 100vh;
+
+      background: #764e32;
+
+      font-family: Arial, sans-serif;
+
+      color: white;
+
+      display: flex;
+
+      justify-content: center;
+
+      padding: 25px 20px 45px;
+
+    }
+
+
+    /* ==================================
+       ОСНОВНАЯ КАРТОЧКА
+    ================================== */
+
+    .page {
+
+      width: 100%;
+
+      max-width: 880px;
+
+      min-height: calc(100vh - 70px);
+
+      background: rgba(145, 105, 75, 0.55);
+
+      border: 2px solid rgba(255, 255, 255, 0.32);
+
+      border-radius: 55px;
+
+      padding: 35px 35px 40px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      box-shadow:
+        0 15px 35px rgba(45, 20, 10, 0.25);
+
+    }
+
+
+    /* ==================================
+       ТОЧКИ
+    ================================== */
+
+    .top-dots {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      margin-bottom: 22px;
+
+    }
+
+
+    .top-dots span {
+
+      width: 22px;
+
+      height: 22px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255, 255, 255, 0.38);
+
+    }
+
+
+    .top-dots span.active {
+
+      width: 64px;
+
+      border-radius: 20px;
+
+      background: white;
+
+    }
+
+
+    /* ==================================
+       GIF
+    ================================== */
+
+    .gif-container {
+
+      width: min(82vw, 400px);
+
+      display: flex;
+
+      justify-content: center;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    .gif-frame {
+
+      display: block;
+
+      width: 100%;
+
+      aspect-ratio: 480 / 375;
+
+      border: none;
+
+    }
+
+
+    /* ==================================
+       ЗАГОЛОВОК
+    ================================== */
+
+    h1 {
+
+      margin: 0;
+
+      color: white;
+
+      font-size: clamp(
+        30px,
+        8vw,
+        55px
+      );
+
+      line-height: 1.15;
+
+      text-align: center;
+
+      font-weight: 700;
+
+    }
+
+
+    .subtitle {
+
+      margin-top: 12px;
+
+      margin-bottom: 35px;
+
+      color: white;
+
+      font-size: clamp(
+        19px,
+        5vw,
+        29px
+      );
+
+      text-align: center;
+
+      font-weight: 400;
+
+    }
+
+
+    /* ==================================
+       КВАДРАТИКИ
+    ================================== */
+
+    .activities {
+
+      width: 100%;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 22px;
+
+    }
+
+
+    .activity {
+
+      min-height: 250px;
+
+      border-radius: 32px;
+
+      border: 2px solid
+      rgba(255, 255, 255, 0.38);
+
+background:
+  rgba(180, 130, 95, 0.24);
+
+color: white;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+justify-content: center;
+
+padding: 20px;
+
+cursor: pointer;
+
+position: relative;
+
+-webkit-tap-highlight-color: transparent;
+
+transition:
+  border-color 0.12s ease,
+  background 0.12s ease;
+
+}
+
+
+.activity:active {
+
+transform: scale(0.98);
+
+}
+
+
+/* Выбранный вариант */
+
+.activity.selected {
+
+border-color: white;
+
+border-width: 2px;
+
+background:
+  rgba(255, 255, 255, 0.10);
+
+}
+
+
+.activity-emoji {
+
+font-size: 100px;
+
+line-height: 1;
+
+margin-bottom: 25px;
+
+}
+
+
+.activity-name {
+
+color: white;
+
+font-size: 25px;
+
+font-weight: 500;
+
+text-align: center;
+
+}
+
+
+/* ==================================
+ ДРУГОЕ
+================================== */
+
+.other-card {
+
+cursor: text;
+
+}
+
+
+.other-title {
+
+font-size: 29px;
+
+font-weight: 500;
+
+text-align: center;
+
+margin-bottom: 22px;
+
+}
+
+
+.other-input {
+
+width: 90%;
+
+height: 55px;
+
+padding: 10px 15px;
+
+border: none;
+
+border-bottom:
+  2px solid
+  rgba(255, 255, 255, 0.6);
+
+outline: none;
+
+background: transparent;
+
+color: white;
+
+font-family: inherit;
+
+font-size: 20px;
+
+text-align: center;
+
+caret-color: white;
+
+}
+
+
+.other-input::placeholder {
+
+color:
+  rgba(255, 255, 255, 0.65);
+
+}
+
+
+/* ==================================
+ КНОПКА ДАЛЬШЕ
+================================== */
+
+#nextButton {
+
+margin-top: 40px;
+
+width: min(60%, 340px);
+
+height: 82px;
+
+border: none;
+
+border-radius: 50px;
+
+background: rgba(
+  255,
+  220,
+  205,
+  0.85
+);
+
+color: #d98578;
+
+font-family: inherit;
+
+font-size: 26px;
+
+font-weight: 700;
+
+cursor: pointer;
+
+-webkit-tap-highlight-color: transparent;
+
+}
+
+
+/* Когда что-то выбрано */
+
+#nextButton.ready {
+
+background: white;
+
+color: #764e32;
+
+}
+
+
+#nextButton:active {
+
+transform: scale(0.97);
+
+}
+
+
+/* ==================================
+ МОБИЛЬНАЯ ВЕРСИЯ
+================================== */
+
+@media (max-width: 600px) {
+
+.page {
+
+  border-radius: 40px;
+
+  padding:
+    30px 22px 35px;
+
+}
+
+
+.top-dots {
+
+  margin-bottom: 15px;
+
+}
+
+
+.gif-container {
+
+  width:
+    min(82vw, 360px);
+
+  margin-bottom: 10px;
+
+}
+
+
+h1 {
+
+  font-size: 31px;
+
+}
+
+
+.subtitle {
+
+  font-size: 20px;
+
+  margin-bottom: 27px;
+
+}
+
+
+.activities {
+
+  gap: 14px;
+
+}
+
+
+.activity {
+
+  min-height: 190px;
+
+  border-radius: 27px;
+
+  padding: 15px;
+
+}
+
+
+.activity-emoji {
+
+  font-size: 67px;
+
+  margin-bottom: 17px;
+
+}
+
+
+.activity-name {
+
+  font-size: 21px;
+
+}
+
+
+.other-title {
+
+  font-size: 22px;
+
+  margin-bottom: 15px;
+
+}
+.other-input {
+
+font-size: 17px;
+
+width: 95%;
+
+}
+
+
+#nextButton {
+
+width: 62%;
+
+height: 75px;
+
+font-size: 23px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<main class="page">
+
+
+<!-- ТОЧКИ -->
+
+<div class="top-dots">
+
+<span class="active"></span>
+
+<span class="active"></span>
+
+<span></span>
+
+</div>
+
+
+
+<!-- GIF -->
+
+<div class="gif-container">
+
+<iframe
+class="gif-frame"
+src="https://gifs.ru/embed/LOzkif"
+width="480"
+height="375"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+</div>
+
+
+
+<!-- ЗАГОЛОВОК -->
+
+<h1>
+Чем займёмся? 😊
+</h1>
+
+
+<div class="subtitle">
+Выбирай, что по душе
+</div>
+
+
+
+<!-- ВАРИАНТЫ -->
+
+<div class="activities">
+
+
+<!-- ПИЦЦА -->
+
+<button
+class="activity"
+data-option="Пицца"
+>
+
+<div class="activity-emoji">
+  🍕
+</div>
+
+<div class="activity-name">
+  Пицца
+</div>
+
+</button>
+
+
+
+<!-- ДРУГОЕ -->
+
+<div
+class="activity other-card"
+id="otherCard"
+>
+
+<div class="other-title">
+  Другое 🖊️
+</div>
+
+<input
+  class="other-input"
+  id="otherInput"
+  type="text"
+  placeholder="Напиши свой вариант"
+  autocomplete="off"
+>
+
+</div>
+
+
+
+<!-- ПРОГУЛКА -->
+
+<button
+class="activity"
+data-option="Прогулка"
+>
+
+<div class="activity-emoji">
+  🌳
+</div>
+
+<div class="activity-name">
+  Прогулка
+</div>
+
+</button>
+
+
+
+<!-- КОФЕ -->
+
+<button
+class="activity"
+data-option="Кофе"
+>
+
+<div class="activity-emoji">
+  ☕
+</div>
+
+<div class="activity-name">
+  Кофе
+</div>
+
+</button>
+
+
+</div>
+
+
+
+<!-- ДАЛЬШЕ -->
+
+<button
+id="nextButton"
+>
+Дальше →
+</button>
+
+
+</main>
+
+
+
+<script>
+
+
+/* ==================================
+ПЕРЕМЕННЫЕ
+================================== */
+
+const activityButtons =
+document.querySelectorAll(
+".activity[data-option]"
+);
+
+
+const otherCard =
+document.getElementById(
+"otherCard"
+);
+
+
+const otherInput =
+document.getElementById(
+"otherInput"
+);
+
+
+const nextButton =
+document.getElementById(
+"nextButton"
+);
+
+
+let selectedActivities = [];
+
+
+
+/* ==================================
+ОБНОВЛЕНИЕ КНОПКИ
+================================== */
+
+function updateNextButton() {
+
+const hasOther =
+otherInput.value.trim().length > 0;
+
+
+if (
+selectedActivities.length > 0 ||
+hasOther
+) {
+    nextButton.classList.add(
+          "ready"
+        );
+
+      } else {
+
+        nextButton.classList.remove(
+          "ready"
+        );
+
+      }
+
+    }
+
+
+
+    /* ==================================
+       ОБЫЧНЫЕ ВАРИАНТЫ
+    ================================== */
+
+    activityButtons.forEach(
+      function (button) {
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            const option =
+              button.dataset.option;
+
+
+            /*
+              Если уже выбрано —
+              убираем выбор.
+            */
+
+            if (
+              button.classList.contains(
+                "selected"
+              )
+            ) {
+
+              button.classList.remove(
+                "selected"
+              );
+
+
+              selectedActivities =
+                selectedActivities.filter(
+                  function (item) {
+
+                    return item !== option;
+
+                  }
+                );
+
+            }
+
+
+            /*
+              Если не выбрано —
+              добавляем.
+            */
+
+            else {
+
+              button.classList.add(
+                "selected"
+              );
+
+
+              selectedActivities.push(
+                option
+              );
+
+            }
+
+
+            updateNextButton();
+
+          }
+        );
+
+      }
+    );
+
+
+
+    /* ==================================
+       «ДРУГОЕ»
+    ================================== */
+
+    otherCard.addEventListener(
+      "click",
+      function () {
+
+        otherInput.focus();
+
+      }
+    );
+
+
+    /*
+      Когда человек пишет свой вариант,
+      следим за текстом.
+    */
+
+    otherInput.addEventListener(
+      "input",
+      function () {
+
+        updateNextButton();
+
+      }
+    );
+
+
+    /*
+      Когда человек закончил ввод
+      и нажал куда-нибудь ещё —
+      карточка становится выбранной.
+    */
+
+    otherInput.addEventListener(
+      "blur",
+      function () {
+
+        if (
+          otherInput.value.trim()
+            .length > 0
+        ) {
+
+          otherCard.classList.add(
+            "selected"
+          );
+
+        }
+
+        else {
+
+          otherCard.classList.remove(
+            "selected"
+          );
+
+        }
+
+
+        updateNextButton();
+
+      }
+    );
+
+
+
+    /* ==================================
+       ДАЛЬШЕ
+    ================================== */
+
+    nextButton.addEventListener(
+      "click",
+      function () {
+
+        const activities = [
+          ...selectedActivities
+        ];
+
+
+        const otherText =
+          otherInput.value.trim();
+
+
+        if (
+          otherText.length > 0
+        ) {
+
+          activities.push(
+            otherText
+          );
+
+        }
+
+
+        if (
+          activities.length === 0
+        ) {
+
+          return;
+
+        }
+
+
+        /*
+          Сохраняем выбранные варианты.
+        */
+
+        localStorage.setItem(
+          "activities",
+          JSON.stringify(
+            activities
+          )
+        );
+
+
+        /*
+          Переходим дальше.
+        */
+
+        window.location.href =
+          "final.html";
+
+      }
+    );
+
+  </script>
+
+
+</body>
+
+</html>

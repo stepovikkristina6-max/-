@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+
+    <title>У меня вопрос ❤️</title>
+
+
+    <!-- Конфетти -->
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+
+    <style>
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+
+            margin: 0;
+
+            width: 100%;
+
+            min-height: 100%;
+
+            background-color: #a99ac2;
+
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 18px;
+
+            font-family: sans-serif;
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================
+           КРАСИВАЯ РАМКА
+           ========================= */
+
+        .page {
+
+            width: 100%;
+
+            height:
+                calc(100vh - 36px);
+
+            max-width: 500px;
+
+            border-radius: 42px;
+
+            border:
+                2px solid
+                rgba(255, 255, 255, 0.35);
+
+            background:
+                rgba(235, 164, 109, 0.38);
+
+            box-shadow:
+                0 15px 40px
+                rgba(40, 20, 10, 0.25);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                22px 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================
+           GIF
+           ========================= */
+
+        .gif-container {
+
+            width:
+                min(82vw, 400px);
+
+            margin-bottom: 25px;
+
+            display: flex;
+
+            justify-content: center;
+
+        }
+
+
+        .gif-frame {
+
+            display: block;
+
+            width: 100%;
+
+            border: none;
+
+        }
+
+
+        /* Первый GIF */
+
+        #firstGif {
+
+            aspect-ratio: 1 / 1;
+
+        }
+
+
+        /* Второй GIF */
+
+        #secondGif {
+
+            aspect-ratio: 480 / 382;
+
+            display: none;
+
+        }
+
+
+        /* =========================
+           ВОПРОС
+           ========================= */
+
+        h1 {
+
+            margin: 0;
+
+            max-width: 90%;
+
+            color: white;
+
+            font-size:
+                clamp(25px, 7vw, 36px);
+
+            font-weight: normal;
+
+            line-height: 1.2;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           КНОПКИ
+           ========================= */
+
+        .buttons {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: center;
+
+            gap: 18px;
+
+            margin-top: 45px;
+
+            width: 100%;
+
+            min-height: 100px;
+
+        }
+
+
+        button {
+
+            border: none;
+
+            background-color: white;
+
+            color: black;
+
+            font-family: inherit;
+
+            font-size: 18px;
+
+            padding:
+                14px 34px;
+
+            border-radius: 50px;
+
+            cursor: pointer;
+
+            -webkit-tap-highlight-color:
+                transparent;
+
+        }
+
+
+        /* =========================
+           КНОПКА "ДА"
+           ========================= */
+
+        #yesButton {
+
+            position: relative;
+
+            z-index: 2;
+
+            flex-shrink: 0;
+
+            background-color: white;
+
+        }
+
+
+        #yesButton.active {
+
+            background-color: #b84641;
+
+        }
+
+
+        /* =========================
+           ОБЛАСТЬ "НЕТ"
+           ========================= */
+
+        .no-area {
+
+            position: relative;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            flex-shrink: 0;
+
+        }
+
+
+        #noButton {
+
+            position: relative;
+
+            z-index: 10;
+
+        }
+
+
+        /* =========================
+           НАДПИСЬ
+           ========================= */
+
+        .hint {
+
+            position: relative;
+
+            margin-top: 55px;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 300;
+
+            white-space: nowrap;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           СТРЕЛКА
+           ========================= */
+
+        .arrow {
+
+            position: absolute;
+
+            top: 48px;
+
+            left: 50%;
+
+            width: 70px;
+
+            height: 45px;
+
+            transform:
+                translateX(-50%);
+
+            pointer-events: none;
+
+        }
+
+
+        .arrow svg {
+
+            width: 100%;
+
+            height: 100%;
+
+            overflow: visible;
+
+        }
+
+
+        .arrow path {
+
+            fill: none;
+
+stroke: white;
+
+stroke-width: 2;
+
+stroke-linecap: round;
+
+stroke-linejoin: round;
+
+}
+
+
+/* =========================
+СКРЫТИЕ
+========================= */
+
+.hint.hidden,
+.arrow.hidden {
+
+display: none;
+
+}
+
+
+/* =========================
+ПРЫГАЮЩАЯ КНОПКА
+========================= */
+
+#noButton.jumping {
+
+position: fixed;
+
+z-index: 100;
+
+margin: 0;
+
+}
+
+
+/* =========================
+МОБИЛЬНАЯ ВЕРСИЯ
+========================= */
+
+@media (max-width: 600px) {
+
+
+body {
+
+    padding: 14px;
+
+}
+
+
+.page {
+
+    height:
+        calc(100vh - 28px);
+
+    border-radius: 38px;
+
+    padding:
+        20px 16px;
+
+}
+
+
+.gif-container {
+
+    width: 78vw;
+
+    margin-bottom: 18px;
+
+}
+
+
+h1 {
+
+    font-size: 26px;
+
+}
+
+
+.buttons {
+
+    margin-top: 30px;
+
+    gap: 12px;
+
+}
+
+
+button {
+
+    font-size: 17px;
+
+    padding:
+        13px 28px;
+
+}
+
+
+.hint {
+
+    margin-top: 55px;
+
+    font-size: 14px;
+
+}
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<!-- =========================
+ GIF 1
+ ========================= -->
+
+<div class="gif-container">
+
+
+<iframe
+
+    id="firstGif"
+
+    class="gif-frame"
+
+    src="https://gifs.ru/embed/PU8Kav"
+
+    frameborder="0"
+
+    allowfullscreen>
+
+</iframe>
+
+
+<!-- =========================
+     GIF 2
+     ========================= -->
+
+<iframe
+
+    id="secondGif"
+
+    class="gif-frame"
+
+    src="https://gifs.ru/embed/iz4lI0"
+
+    frameborder="0"
+
+    allowfullscreen>
+
+</iframe>
+
+
+</div>
+
+
+<!-- =========================
+ ВОПРОС
+ ========================= -->
+ <h1>
+
+    Ты пойдешь со мной на свидание?
+
+</h1>
+
+
+<!-- =========================
+     КНОПКИ
+     ========================= -->
+
+<div class="buttons">
+
+
+    <button id="yesButton">
+
+        Да
+
+    </button>
+
+
+    <div class="no-area">
+
+
+        <button id="noButton">
+
+            Нет
+
+        </button>
+
+
+        <div
+            id="hint"
+            class="hint">
+
+            Попробуй отказаться😏
+
+        </div>
+
+
+        <div
+            id="arrow"
+            class="arrow">
+
+
+            <svg viewBox="0 0 70 45">
+
+
+                <path
+                    d="M 10 40 Q 15 10 55 8"
+                />
+
+
+                <path
+                    d="M 55 8 L 45 5"
+                />
+
+
+                <path
+                    d="M 55 8 L 50 17"
+                />
+
+
+            </svg>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   НАХОДИМ ЭЛЕМЕНТЫ
+   ========================= */
+
+
+const noButton =
+    document.getElementById(
+        "noButton"
+    );
+
+
+const yesButton =
+    document.getElementById(
+        "yesButton"
+    );
+
+
+const hint =
+    document.getElementById(
+        "hint"
+    );
+
+
+const arrow =
+    document.getElementById(
+        "arrow"
+    );
+
+
+const firstGif =
+    document.getElementById(
+        "firstGif"
+            );
+
+
+        const secondGif =
+            document.getElementById(
+                "secondGif"
+            );
+
+
+        let noClicks = 0;
+
+
+
+        /* =========================
+           НАЖАТИЕ НА "НЕТ"
+           ========================= */
+
+        noButton.addEventListener(
+            "click",
+            function () {
+
+
+                noClicks++;
+
+
+                /* После первого нажатия */
+
+                if (noClicks === 1) {
+
+
+                    /* Меняем GIF */
+
+                    firstGif.style.display =
+                        "none";
+
+
+                    secondGif.style.display =
+                        "block";
+
+
+                    /* Красим "Да" */
+
+                    yesButton.classList.add(
+                        "active"
+                    );
+
+
+                    /* Убираем надпись */
+
+                    hint.classList.add(
+                        "hidden"
+                    );
+
+
+                    /* Убираем стрелку */
+
+                    arrow.classList.add(
+                        "hidden"
+                    );
+
+
+                    /* Начинаем прыжки */
+
+                    noButton.classList.add(
+                        "jumping"
+                    );
+
+                }
+
+
+                /* После шестого нажатия
+                   кнопка исчезает */
+
+                if (noClicks >= 6) {
+
+                    noButton.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+
+                /* Перемещаем кнопку */
+
+                moveNoButton();
+
+
+            }
+        );
+
+
+
+        /* =========================
+           ФУНКЦИЯ ПЕРЕМЕЩЕНИЯ
+           ========================= */
+
+        function moveNoButton() {
+
+
+            const buttonWidth =
+                noButton.offsetWidth;
+
+
+            const buttonHeight =
+                noButton.offsetHeight;
+
+
+            const padding = 15;
+
+
+            const maxX =
+                window.innerWidth
+                -
+                buttonWidth
+                -
+                padding;
+
+
+            const maxY =
+                window.innerHeight
+                -
+                buttonHeight
+                -
+                padding;
+
+
+            const randomX =
+                padding
+                +
+                Math.random()
+                *
+                (
+                    maxX - padding
+                );
+
+
+            const randomY =
+                padding
+                +
+                Math.random()
+                *
+                (
+                    maxY - padding
+                );
+
+
+            noButton.style.left =
+                randomX + "px";
+
+
+            noButton.style.top =
+                randomY + "px";
+
+        }
+
+
+
+        /* =========================
+           НАЖАТИЕ НА "ДА"
+           ========================= */
+
+        yesButton.addEventListener(
+            "click",
+            function () {
+
+
+                yesButton.disabled =
+                    true;
+
+
+                noButton.disabled =
+                    true;
+
+
+                const duration =
+                    3000;
+
+
+                const end =
+                    Date.now()
+                    +
+                    duration;
+
+
+
+                function launchConfetti() {
+
+
+                    confetti({
+
+                        particleCount: 8,
+
+                        angle: 60,
+
+                        spread: 70,
+
+                        startVelocity: 45,
+
+                        origin: {
+                            x: 0,
+                            y: 0.7
+                        }
+
+                    });
+
+
+                    confetti({
+
+                        particleCount: 8,
+
+                        angle: 120,
+
+                        spread: 70,
+
+                        startVelocity: 45,
+
+                        origin: {
+                            x: 1,
+                            y: 0.7
+                        }
+
+                    });
+
+
+                    if (
+                        Date.now() < end
+                    ) {
+
+                        requestAnimationFrame(
+                            launchConfetti
+                        );
+
+                    }
+
+                }
+
+
+                launchConfetti();
+
+
+
+                /* Через 3 секунды
+                   переходим дальше */
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "confirm.html";
+
+                    },
+                    duration
+                );
+
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

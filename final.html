@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Наше свидание 💛</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+
+    body {
+
+      min-height: 100vh;
+
+      /*
+        Нежный оливковый фон
+      */
+
+      background:
+        linear-gradient(
+          145deg,
+          #aebe8f,
+          #c4d1a8,
+          #9eaf7e
+        );
+
+      font-family: Arial, sans-serif;
+
+      color: white;
+
+      display: flex;
+
+      justify-content: center;
+
+      padding: 25px 20px 45px;
+
+      overflow-x: hidden;
+
+    }
+
+
+    /* ==================================
+       ОСНОВНАЯ КАРТОЧКА
+    ================================== */
+
+    .page {
+
+      width: 100%;
+
+      max-width: 880px;
+
+      min-height: calc(100vh - 70px);
+
+      background:
+        rgba(205, 218, 175, 0.48);
+
+      border:
+        2px solid
+        rgba(255, 255, 255, 0.42);
+
+      border-radius: 55px;
+
+      padding:
+        35px 35px 45px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      box-shadow:
+        0 15px 40px
+        rgba(55, 70, 35, 0.18);
+
+      position: relative;
+
+    }
+
+
+    /* ==================================
+       ТОЧКИ СВЕРХУ
+    ================================== */
+
+    .top-dots {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      margin-bottom: 25px;
+
+    }
+
+
+    .top-dots span {
+
+      width: 22px;
+
+      height: 22px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255, 255, 255, 0.45);
+
+    }
+
+
+    .top-dots span.active {
+
+      width: 64px;
+
+      border-radius: 20px;
+
+      background: white;
+
+    }
+
+
+    /* ==================================
+       GIF
+    ================================== */
+
+    .gif-container {
+
+      width:
+        min(82vw, 400px);
+
+      display: flex;
+
+      justify-content: center;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .gif-frame {
+
+      display: block;
+
+      width: 100%;
+
+      aspect-ratio: 480 / 521;
+
+      border: none;
+
+    }
+
+
+    /* ==================================
+       ЗАГОЛОВОК
+    ================================== */
+
+    h1 {
+
+      margin:
+        0 0 10px;
+
+      color: white;
+
+      font-size:
+        clamp(30px, 8vw, 55px);
+
+      line-height: 1.15;
+
+      text-align: center;
+
+      font-weight: 700;
+
+    }
+
+
+    .main-info {
+
+      max-width: 90%;
+
+      color: white;
+
+      font-size:
+        clamp(20px, 5vw, 29px);
+
+      line-height: 1.4;
+
+      text-align: center;
+
+      font-weight: 400;
+
+    }
+
+
+    /* ==================================
+       ОБРАТНЫЙ ОТСЧЁТ
+    ================================== */
+
+    .countdown {
+
+      width: 100%;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 12px;
+      margin-top: 30px;
+
+}
+
+
+.countdown-item {
+
+  min-width: 0;
+
+  min-height: 115px;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.45);
+
+  border-radius: 28px;
+
+  background:
+    rgba(220, 230, 195, 0.25);
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+}
+
+
+.count-number {
+
+  color: white;
+
+  font-size:
+    clamp(28px, 7vw, 43px);
+
+  font-weight: 700;
+
+  line-height: 1;
+
+}
+
+
+.count-label {
+
+  margin-top: 12px;
+
+  color:
+    rgba(255, 255, 255, 0.85);
+
+  font-size:
+    clamp(12px, 3vw, 18px);
+
+  text-transform: uppercase;
+
+}
+
+
+/* ==================================
+   ИНФОРМАЦИОННЫЕ БЛОКИ
+================================== */
+
+.details {
+
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+
+  margin-top: 35px;
+
+}
+
+
+.detail-card {
+
+  width: 100%;
+
+  min-height: 105px;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.42);
+
+  border-radius: 30px;
+
+  background:
+    rgba(210, 225, 180, 0.24);
+
+  display: flex;
+
+  align-items: center;
+
+  padding:
+    20px 28px;
+
+}
+
+
+.detail-icon {
+
+  width: 60px;
+
+  flex-shrink: 0;
+
+  font-size: 36px;
+
+  text-align: center;
+
+}
+
+
+.detail-content {
+
+  margin-left: 18px;
+
+}
+
+
+.detail-title {
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  margin-bottom: 7px;
+
+}
+
+
+.detail-value {
+
+  color: white;
+
+  font-size: 24px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+}
+
+
+/* ==================================
+   МАЛЕНЬКАЯ ФРАЗА ВНИЗУ
+================================== */
+
+.final-message {
+
+  margin-top: 30px;
+
+  color: white;
+
+  font-size: 20px;
+
+  text-align: center;
+
+  line-height: 1.4;
+
+}
+
+
+/* ==================================
+   МОБИЛЬНАЯ ВЕРСИЯ
+================================== */
+
+@media (max-width: 600px) {
+
+  body {
+
+    padding:
+      20px 14px 35px;
+
+  }
+
+
+  .page {
+
+    min-height:
+      calc(100vh - 55px);
+
+    border-radius: 40px;
+
+    padding:
+      28px 20px 35px;
+
+  }
+
+
+  .top-dots {
+
+    margin-bottom: 12px;
+
+  }
+
+
+  .gif-container {
+
+    width:
+      min(82vw, 350px);
+
+    margin-bottom: 5px;
+
+  }
+
+
+  h1 {
+
+    font-size: 32px;
+
+  }
+
+
+  .main-info {
+
+    font-size: 20px;
+
+}
+
+
+.countdown {
+
+  gap: 7px;
+
+  margin-top: 25px;
+
+}
+
+
+.countdown-item {
+
+  min-height: 90px;
+
+  border-radius: 20px;
+
+}
+
+
+.count-number {
+
+  font-size: 27px;
+
+}
+
+
+.count-label {
+
+  margin-top: 7px;
+
+  font-size: 10px;
+
+}
+
+
+.details {
+
+  margin-top: 25px;
+
+  gap: 12px;
+
+}
+
+
+.detail-card {
+
+  min-height: 90px;
+
+  border-radius: 25px;
+
+  padding:
+    16px 18px;
+
+}
+
+
+.detail-icon {
+
+  width: 45px;
+
+  font-size: 30px;
+
+}
+
+
+.detail-content {
+
+  margin-left: 12px;
+
+}
+
+
+.detail-title {
+
+  font-size: 13px;
+
+  margin-bottom: 5px;
+
+}
+
+
+.detail-value {
+
+  font-size: 20px;
+
+}
+
+
+.final-message {
+
+  font-size: 18px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<main class="page">
+
+
+<!-- ==================================
+   ТОЧКИ
+================================== -->
+
+<div class="top-dots">
+
+<span class="active"></span>
+
+<span class="active"></span>
+
+<span class="active"></span>
+
+</div>
+
+
+
+<!-- ==================================
+   GIF
+================================== -->
+
+<div class="gif-container">
+
+<iframe
+  class="gif-frame"
+  src="https://gifs.ru/embed/gCZoEt"
+  width="480"
+  height="521"
+  frameborder="0"
+  allowfullscreen>
+</iframe>
+
+</div>
+
+
+
+<!-- ==================================
+   ЗАГОЛОВОК
+================================== -->
+
+<h1>
+Ура! Это свидание 💛
+</h1>
+
+
+<div
+class="main-info"
+id="mainInfo">
+</div>
+
+
+
+<!-- ==================================
+   ОБРАТНЫЙ ОТСЧЁТ
+================================== -->
+
+<div class="countdown">
+
+
+<div class="countdown-item">
+
+  <div
+    class="count-number"
+    id="days">
+    0
+  </div>
+
+  <div class="count-label">
+    дней
+  </div>
+
+</div>
+
+
+
+<div class="countdown-item">
+
+  <div
+    class="count-number"
+    id="hours">
+    0
+  </div>
+
+  <div class="count-label">
+    часов
+  </div>
+
+</div>
+
+
+
+<div class="countdown-item">
+
+  <div
+    class="count-number"
+    id="minutes">
+    0
+  </div>
+
+  <div class="count-label">
+    минут
+  </div>
+
+</div>
+
+
+
+<div class="countdown-item">
+
+  <div
+    class="count-number"
+    id="seconds">
+    0
+  </div>
+
+  <div class="count-label">
+    секунд
+  </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ==================================
+   ИНФОРМАЦИЯ
+================================== -->
+
+<div class="details">
+
+
+<!-- КОГДА -->
+
+<div class="detail-card">
+
+  <div class="detail-icon">
+    📅
+  </div>
+
+  <div class="detail-content">
+
+    <div class="detail-title">
+      Когда
+    </div>
+
+    <div
+      class="detail-value"
+      id="dateText">
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ВО СКОЛЬКО -->
+
+<div class="detail-card">
+
+  <div class="detail-icon">
+    🕐
+  </div>
+
+  <div class="detail-content">
+
+    <div class="detail-title">
+      Во сколько
+    </div>
+
+    <div
+      class="detail-value"
+      id="timeText">
+    </div>
+
+</div>
+
+</div>
+
+
+
+<!-- ЧТО -->
+
+<div class="detail-card">
+
+  <div class="detail-icon">
+    🎯
+  </div>
+
+  <div class="detail-content">
+
+    <div class="detail-title">
+      Что
+    </div>
+
+    <div
+      class="detail-value"
+      id="activitiesText">
+    </div>
+
+  </div>
+
+</div>
+
+
+</div>
+
+
+
+<div class="final-message">
+
+Буду ждать тебя 💛
+
+</div>
+
+
+</main>
+
+
+
+<!-- ==================================
+ CONFETTI
+================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+
+
+<script>
+
+
+/* ==================================
+ ПОЛУЧАЕМ СОХРАНЁННЫЕ ДАННЫЕ
+================================== */
+
+const savedDate =
+localStorage.getItem("date");
+
+
+const savedTime =
+localStorage.getItem("time");
+
+
+const savedActivities =
+JSON.parse(
+  localStorage.getItem(
+    "activities"
+  ) || "[]"
+);
+
+
+
+/* ==================================
+ ПОКАЗЫВАЕМ ДАТУ
+================================== */
+
+if (savedDate) {
+
+document.getElementById(
+  "dateText"
+).textContent =
+  savedDate;
+
+} else {
+
+document.getElementById(
+  "dateText"
+).textContent =
+  "Дата не выбрана";
+
+}
+
+
+
+/* ==================================
+ ПОКАЗЫВАЕМ ВРЕМЯ
+================================== */
+
+if (savedTime) {
+
+document.getElementById(
+  "timeText"
+).textContent =
+  savedTime;
+
+} else {
+
+document.getElementById(
+  "timeText"
+).textContent =
+  "Время не выбрано";
+
+}
+
+
+
+/* ==================================
+ ПОКАЗЫВАЕМ ЗАНЯТИЯ
+================================== */
+
+if (
+savedActivities.length > 0
+) {
+
+document.getElementById(
+  "activitiesText"
+).textContent =
+  savedActivities.join(" · ");
+
+} else {
+
+document.getElementById(
+  "activitiesText"
+).textContent =
+  "Что-нибудь приятное 💕";
+
+}
+
+
+
+/* ==================================
+ ТЕКСТ ПОД ЗАГОЛОВКОМ
+================================== */
+
+let activityText =
+savedActivities.join(" · ");
+
+
+if (
+savedActivities.length === 1
+) {
+
+activityText =
+  savedActivities[0];
+
+}
+
+
+if (
+savedDate &&
+savedTime
+) {
+
+document.getElementById(
+  "mainInfo"
+).textContent =
+  "Жду тебя " +
+  savedDate +
+  " в " +
+  savedTime +
+  ". Нас ждёт " +
+  activityText +
+  " 💫";
+
+}
+
+
+
+/* ==================================
+ ОБРАТНЫЙ ОТСЧЁТ
+================================== */
+
+function getTargetDate() {
+
+if (
+  !savedDate ||
+  !savedTime
+) {
+
+  return null;
+
+}
+
+
+/*
+  Из строки
+  «8 октября 2026»
+  получаем число 8.
+*/
+
+const day =
+  parseInt(
+    savedDate
+  );
+
+
+/*
+  Октябрь = месяц 9,
+  потому что JavaScript
+  считает январь нулевым.
+*/
+
+const target =
+  new Date(
+    2026,
+    9,
+    day
+  );
+
+
+const [
+  hours,
+  minutes
+      ] =
+        savedTime
+          .split(":")
+          .map(Number);
+
+
+      target.setHours(
+        hours,
+        minutes,
+        0,
+        0
+      );
+
+
+      return target;
+
+    }
+
+
+
+    const targetDate =
+      getTargetDate();
+
+
+
+    function updateCountdown() {
+
+      if (!targetDate) {
+
+        return;
+
+      }
+
+
+      const now =
+        new Date();
+
+
+      let difference =
+        targetDate.getTime()
+        -
+        now.getTime();
+
+
+      /*
+        Если время уже наступило,
+        показываем нули.
+      */
+
+      if (
+        difference < 0
+      ) {
+
+        difference = 0;
+
+      }
+
+
+      const totalSeconds =
+        Math.floor(
+          difference / 1000
+        );
+
+
+      const days =
+        Math.floor(
+          totalSeconds / 86400
+        );
+
+
+      const hours =
+        Math.floor(
+          (totalSeconds % 86400)
+          / 3600
+        );
+
+
+      const minutes =
+        Math.floor(
+          (totalSeconds % 3600)
+          / 60
+        );
+
+
+      const seconds =
+        totalSeconds % 60;
+
+
+      document.getElementById(
+        "days"
+      ).textContent =
+        days;
+
+
+      document.getElementById(
+        "hours"
+      ).textContent =
+        hours;
+
+
+      document.getElementById(
+        "minutes"
+      ).textContent =
+        minutes;
+
+
+      document.getElementById(
+        "seconds"
+      ).textContent =
+        seconds;
+
+    }
+
+
+    updateCountdown();
+
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
+
+
+    /* ==================================
+       🎉 КОНФЕТТИ 3 СЕКУНДЫ
+    ================================== */
+
+    const confettiDuration =
+      3000;
+
+
+    const confettiEnd =
+      Date.now()
+      +
+      confettiDuration;
+
+
+    function launchConfetti() {
+
+      confetti({
+
+        particleCount: 7,
+
+        angle: 60,
+
+        spread: 75,
+
+        startVelocity: 40,
+
+        origin: {
+          x: 0,
+          y: 0.65
+        }
+
+      });
+
+
+      confetti({
+
+        particleCount: 7,
+
+        angle: 120,
+
+        spread: 75,
+
+        startVelocity: 40,
+
+        origin: {
+          x: 1,
+          y: 0.65
+        }
+
+      });
+
+
+      if (
+        Date.now()
+        <
+        confettiEnd
+      ) {
+
+        requestAnimationFrame(
+          launchConfetti
+        );
+
+      }
+
+    }
+
+
+    launchConfetti();
+
+  </script>
+
+
+</body>
+
+</html>

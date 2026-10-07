@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+
+    <title>Свидание ❤️</title>
+
+
+    <style>
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+
+            margin: 0;
+
+            width: 100%;
+
+            min-height: 100%;
+
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            background-color: #abc397;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 18px;
+
+            font-family: sans-serif;
+
+            color: black;
+
+        }
+
+
+        /* =========================
+           КРАСИВАЯ РАМКА
+           ========================= */
+
+        .page {
+
+            width: 100%;
+
+            height:
+                calc(100vh - 36px);
+
+            max-width: 500px;
+
+            border-radius: 42px;
+
+            border:
+                2px solid
+                rgba(255, 255, 255, 0.45);
+
+            background:
+                rgba(210, 225, 185, 0.38);
+
+            box-shadow:
+                0 15px 40px
+                rgba(60, 80, 40, 0.20);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                25px 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================
+           GIF
+           ========================= */
+
+        .gif-container {
+
+            width:
+                min(82vw, 400px);
+
+            display: flex;
+
+            justify-content: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .gif-frame {
+
+            display: block;
+
+            width: 100%;
+
+            aspect-ratio:
+                480 / 458;
+
+            border: none;
+
+        }
+
+
+        /* =========================
+           ЗАГОЛОВОК
+           ========================= */
+
+        h1 {
+
+            margin: 0;
+
+            max-width: 90vw;
+
+            color: black;
+
+            font-size:
+                clamp(28px, 8vw, 38px);
+
+            font-weight: normal;
+
+            line-height: 1.2;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           КНОПКА
+           ========================= */
+
+        #dateButton {
+
+            margin-top: 35px;
+
+            border: none;
+
+            border-radius: 50px;
+
+            background-color: white;
+            color: black;
+
+font-family: inherit;
+
+font-size: 18px;
+
+padding:
+    14px 32px;
+
+cursor: pointer;
+
+-webkit-tap-highlight-color:
+    transparent;
+
+}
+
+
+#dateButton:active {
+
+transform:
+    scale(0.97);
+
+}
+
+
+/* =========================
+МОБИЛЬНАЯ ВЕРСИЯ
+========================= */
+
+@media (max-width: 600px) {
+
+
+body {
+
+    padding: 14px;
+
+}
+
+
+.page {
+
+    height:
+        calc(100vh - 28px);
+
+    border-radius: 38px;
+
+    padding:
+        20px 16px;
+
+}
+
+
+.gif-container {
+
+    width: 78vw;
+
+    margin-bottom: 20px;
+
+}
+
+
+h1 {
+
+    font-size: 29px;
+
+}
+
+
+#dateButton {
+
+    margin-top: 30px;
+
+    font-size: 18px;
+
+    padding:
+        14px 30px;
+
+}
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<!-- =========================
+ GIF
+ ========================= -->
+
+<div class="gif-container">
+
+
+<iframe
+
+    class="gif-frame"
+
+    src="https://gifs.ru/embed/hkJVJI"
+
+    frameborder="0"
+
+    allowfullscreen>
+
+</iframe>
+
+
+</div>
+
+
+<!-- =========================
+ ВОПРОС
+ ========================= -->
+
+<h1>
+
+Мы правда идем?
+
+</h1>
+
+
+<!-- =========================
+ КНОПКА
+ ========================= -->
+
+<button id="dateButton">
+
+Да, да, да!
+
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+const dateButton =
+document.getElementById(
+    "dateButton"
+);
+
+
+dateButton.addEventListener(
+"click",
+function () {
+
+
+    window.location.href =
+        "date.html";
+
+
+}
+);
+
+
+</script>
+
+
+</body>
+
+</html>
