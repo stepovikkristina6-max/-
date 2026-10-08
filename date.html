@@ -486,7 +486,50 @@
         padding-right: 18px;
       }
     }
+/* =========================
+   УВЕДОМЛЕНИЕ «Я ПОШУТИЛА»
+   ========================= */
 
+   .joke-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+
+    width: calc(100% - 40px);
+    max-width: 360px;
+
+    padding: 16px 20px;
+    box-sizing: border-box;
+
+    background: white;
+    color: #764e32;
+
+    border-radius: 18px;
+
+    font-size: 17px;
+    line-height: 1.4;
+    text-align: center;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+    cursor: pointer;
+
+    animation: jokeAppear 0.3s ease;
+}
+
+@keyframes jokeAppear {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
   </style>
 </head>
 
@@ -1161,8 +1204,54 @@ chooseButton.addEventListener(
 
   }
 );
+/* =========================
+   УВЕДОМЛЕНИЕ «Я ПОШУТИЛА»
+   ========================= */
+   const jokeNotification =
+    document.getElementById(
+        "jokeNotification"
+    );
+
+if (
+    localStorage.getItem(
+        "showDateJoke"
+    ) === "1"
+) {
+
+    jokeNotification.style.display =
+        "block";
+
+    localStorage.removeItem(
+        "showDateJoke"
+    );
+
+} else {
+
+    jokeNotification.style.display =
+        "none";
+
+}
+
+
+jokeNotification.addEventListener(
+    "touchstart",
+    function () {
+
+        jokeNotification.remove();
+
+    }
+);
 
   </script>
 
 </body>
+<div
+  id="jokeNotification"
+  class="joke-notification"
+  onclick="this.remove()">
+
+  Я пошутила! Как будто у тебя есть выбор🤡
+
+</div>
+
 </html>
