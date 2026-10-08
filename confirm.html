@@ -323,10 +323,13 @@ dateButton.addEventListener(
 "click",
 function () {
 
+     localStorage.setItem(
+       "showDateJoke",
+       "1"
+     );
 
-    window.location.href =
-        "date.html";
-
+     window.location.href =
+       "date.html";
 
 }
 );
