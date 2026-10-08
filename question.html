@@ -450,7 +450,35 @@ button {
 }
 
 }
+/* =========================
+   СНЕГ ИЗ «ХА-ХА»
+   ========================= */
 
+.laugh-snow {
+    position: fixed;
+    top: -30px;
+    z-index: 9999;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+    animation: laughFall linear forwards;
+}
+
+@keyframes laughFall {
+
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+
+}
 
 </style>
 
