@@ -711,7 +711,7 @@ const firstGif =
                     arrow.classList.add(
                         "hidden"
                     );
-
+                    makeLaughSnow();
 
                     /* Начинаем прыжки */
 
@@ -911,7 +911,45 @@ const firstGif =
             }
         );
 
+/* =========================
+   СНЕГ ИЗ «ХА-ХА»
+   ========================= */
 
+function makeLaughSnow() {
+
+    const count = 45;
+
+    for (let i = 0; i < count; i++) {
+
+        const laugh = document.createElement("div");
+
+        laugh.className = "laugh-snow";
+
+        laugh.textContent = "ха-ха";
+
+        laugh.style.left =
+            Math.random() * 100 + "vw";
+
+        laugh.style.fontSize =
+            (12 + Math.random() * 12) + "px";
+
+        laugh.style.animationDuration =
+            (2.2 + Math.random() * 1.5) + "s";
+
+        laugh.style.animationDelay =
+            Math.random() * 0.8 + "s";
+
+        document.body.appendChild(laugh);
+
+        setTimeout(function () {
+
+            laugh.remove();
+
+        }, 4500);
+
+    }
+
+}
     </script>
 
 
